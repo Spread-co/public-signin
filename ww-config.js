@@ -114,34 +114,44 @@ export default {
 
   triggerEvents: [
     {
-      name:    'signin:authenticated',
+      name:    'auth:signin-success',
       label:   'User authenticated',
       event:   { userId: '', email: '', isNewUser: false },
     },
     {
-      name:    'signin:step-changed',
-      label:   'Step changed',
-      event:   { step: '' },
+      name:    'auth:forgot-password-sent',
+      label:   'Forgot password email sent',
+      event:   { email: '' },
     },
     {
-      name:    'signin:plan-selected',
-      label:   'Plan selected',
-      event:   { planId: '', planName: '', priceId: '', amount: 0 },
+      name:    'auth:error',
+      label:   'Auth / checkout error',
+      event:   { step: '', message: '' },
     },
     {
-      name:    'signin:completed',
-      label:   'Checkout started',
-      event:   { sessionUrl: '', planId: '' },
-    },
-    {
-      name:    'signin:waitlisted',
-      label:   'User waitlisted',
+      name:    'signup:capacity-blocked',
+      label:   'User sent to waitlist (capacity full)',
       event:   { email: '', postcode: '', regionId: '' },
     },
     {
-      name:    'signin:error',
-      label:   'Error occurred',
-      event:   { step: '', message: '' },
+      name:    'signup:postcode-unmapped',
+      label:   'Postcode not in any region',
+      event:   { postcode: '' },
+    },
+    {
+      name:    'signup:plan-selected',
+      label:   'Membership plan selected',
+      event:   { planId: '', planName: '', priceId: '', amount: 0 },
+    },
+    {
+      name:    'checkout:redirecting',
+      label:   'Redirecting to Stripe Checkout',
+      event:   { sessionUrl: '', planId: '' },
+    },
+    {
+      name:    'signin:step-changed',
+      label:   'Wizard step changed (utility)',
+      event:   { step: '' },
     },
   ],
 };

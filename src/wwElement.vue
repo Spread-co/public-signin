@@ -377,7 +377,7 @@ export default {
     /* ── Navigation ───────────────────────────────────────────────────── */
     goTo(step) {
       this.currentStep = step;
-      this.$emit('trigger-event', { name: 'signin:step-changed', event: { step } });
+      this.$emit('trigger-event', { name: 'signin:step-changed', event: { step } }); // utility event
     },
 
     stepIndex(key) {
@@ -442,7 +442,7 @@ export default {
         const isNew    = this.authMode === 'signup';
 
         this.$emit('trigger-event', {
-          name:  'signin:authenticated',
+          name:  'auth:signin-success',
           event: { userId: this.userId, email: this.authForm.email, isNewUser: isNew },
         });
 
@@ -454,7 +454,7 @@ export default {
         }
       } catch (e) {
         this.authError = e.message || 'Something went wrong.';
-        this.$emit('trigger-event', { name: 'signin:error', event: { step: 'auth', message: this.authError } });
+        this.$emit('trigger-event', { name: 'auth:error', event: { step: 'auth', message: this.authError } });
       } finally {
         this.authLoading = false;
       }
@@ -472,6 +472,7 @@ export default {
         });
         this.authError = '';
         this.magicLinkSent = true;
+        this.$emit('trigger-event', { name: 'auth:forgot-password-sent', event: { email: this.authForm.email } });
       } catch (_) {}
     },
 
@@ -551,7 +552,7 @@ export default {
         if (!res.ok) { const d = await res.json(); throw new Error(d.message || 'Waitlist join failed.'); }
         this.waitlistSuccess = true;
         this.$emit('trigger-event', {
-          name:  'signin:waitlisted',
+          name:  'signup:capacity-blocked',
           event: { email: this.authForm.email, postcode: this.addressForm.postcode, regionId: this.capacityRegionId },
         });
         try {
@@ -608,7 +609,7 @@ export default {
         if (!efUrl) throw new Error('Checkout function URL not configured.');
 
         this.$emit('trigger-event', {
-          name:  'signin:plan-selected',
+          name:  'signup:plan-selected',
           event: { planId: plan.id, planName: plan.name, priceId: plan.stripe_price_id, amount: plan.amount_cents },
         });
 
@@ -639,7 +640,7 @@ export default {
         if (!sessionUrl) throw new Error('No checkout URL returned.');
 
         this.$emit('trigger-event', {
-          name:  'signin:completed',
+          name:  'checkout:redirecting',
           event: { sessionUrl, planId: plan.id },
         });
 
@@ -649,7 +650,7 @@ export default {
         } catch (_) {}
       } catch (e) {
         this.checkoutError = e.message || 'Checkout setup failed.';
-        this.$emit('trigger-event', { name: 'signin:error', event: { step: 'checkout', message: this.checkoutError } });
+        this.$emit('trigger-event', { name: 'auth:error', event: { step: 'checkout', message: this.checkoutError } });
       } finally {
         this.checkoutLoading = false;
       }
