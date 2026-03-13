@@ -45,6 +45,20 @@ export default {
       defaultValue: true,
       section:      'settings',
     },
+    showGoogleOAuth: {
+      label:        'Show Google sign-in button',
+      type:         'OnOff',
+      bindable:     true,
+      defaultValue: true,
+      section:      'settings',
+    },
+    oauthRedirectUrl: {
+      label:        'OAuth redirect URL',
+      type:         'Text',
+      bindable:     true,
+      defaultValue: '',
+      section:      'settings',
+    },
   },
 
   triggerEvents: [
@@ -77,6 +91,11 @@ export default {
       name:  'auth:error',
       label: 'Auth error',
       event: { step: '', message: '' },
+    },
+    {
+      name:  'auth:oauth-redirect',
+      label: 'OAuth redirect initiated',
+      event: { provider: 'google' },
     },
   ],
 };

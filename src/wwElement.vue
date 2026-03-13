@@ -154,6 +154,25 @@
         <span v-else>{{ submitLabel }}</span>
       </button>
 
+      <!-- Google OAuth -->
+      <template v-if="content.showGoogleOAuth !== false && !forgotMode">
+        <div class="si-auth__divider"><span>or</span></div>
+        <button
+          type="button"
+          class="si-auth__google-btn"
+          @click="signInWithGoogle"
+          :disabled="authLoading"
+        >
+          <svg class="si-auth__google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+      </template>
+
     </form>
   </div>
 </template>
@@ -400,6 +419,21 @@ export default {
       } finally {
         this.authLoading        = false;
         this.checkingMembership = false;
+      }
+    },
+
+    // ── Google OAuth redirect ────────────────────────────────────────────────
+    signInWithGoogle() {
+      var url = this.content.supabaseUrl;
+      if (!url) return;
+      var redirectTo = this.content.oauthRedirectUrl || '';
+      var authUrl = url + '/auth/v1/authorize?provider=google' +
+        (redirectTo ? '&redirect_to=' + encodeURIComponent(redirectTo) : '');
+      this.$emit('trigger-event', { name: 'auth:oauth-redirect', event: { provider: 'google' } });
+      try {
+        wwLib.getFrontWindow().location.href = authUrl;
+      } catch (_) {
+        window.location.href = authUrl;
       }
     },
   },
@@ -683,5 +717,53 @@ export default {
     border-radius: var(--si-r-md);
   }
   .si-auth__field-row { grid-template-columns: 1fr; }
+}
+
+/* ── Google OAuth ──────────────────────────────────────────────────────────── */
+.si-auth__divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: var(--si-text-2);
+  margin: 4px 0;
+}
+.si-auth__divider::before,
+.si-auth__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--si-border);
+}
+
+.si-auth__google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 20px;
+  background: #FFFFFF;
+  color: var(--si-text);
+  border: 1.5px solid var(--si-border);
+  border-radius: var(--si-r-md);
+  font-family: var(--si-font);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  min-height: 48px;
+}
+.si-auth__google-btn:hover:not(:disabled) {
+  background: #F8F8F8;
+  border-color: #C0B8B0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.si-auth__google-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.si-auth__google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 </style>
