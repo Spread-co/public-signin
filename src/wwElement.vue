@@ -1,5 +1,5 @@
 <template>
-  <div class="si-auth" :class="{ 'si-auth--loading': authLoading }">
+  <div v-if="!content.portalTarget || content.portalTarget === 'public'" class="si-auth" :class="{ 'si-auth--loading': authLoading }">
 
     <!-- Mode tabs -->
     <div class="si-auth__tabs" role="tablist" aria-label="Authentication mode">
