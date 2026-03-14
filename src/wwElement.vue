@@ -719,6 +719,10 @@ export default {
   .si-auth__field-row { grid-template-columns: 1fr; }
 }
 
+@media (min-width: 768px) {
+  .si-auth { max-width: 480px; padding: 36px 32px 40px; }
+}
+
 /* ── Google OAuth ──────────────────────────────────────────────────────────── */
 .si-auth__divider {
   display: flex;
