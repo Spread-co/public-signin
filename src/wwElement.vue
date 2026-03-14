@@ -770,4 +770,13 @@ export default {
   height: 18px;
   flex-shrink: 0;
 }
+@media (min-width: 480px) {
+  .si-auth { padding: 36px 32px 40px; }
+}
+@media (min-width: 1024px) {
+  .si-auth { padding: 40px 36px 44px; }
+}
+@media (min-width: 1280px) {
+  .si-auth { padding: 44px 40px 48px; }
+}
 </style>
