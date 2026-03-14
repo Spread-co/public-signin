@@ -102,7 +102,8 @@
           />
           <button type="button" class="si-auth__pw-toggle"
             @click="showPassword = !showPassword"
-            :aria-label="showPassword ? 'Hide password' : 'Show password'">
+            :aria-label="showPassword ? 'Hide password' : 'Show password'"
+            :data-tooltip="showPassword ? 'Hide password' : 'Show password'">
             <svg v-if="showPassword" viewBox="0 0 24 24" width="16" height="16" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
@@ -131,7 +132,8 @@
 
       <!-- Magic link toggle -->
       <div v-if="content.showMagicLinkOption !== false && !forgotMode" class="si-auth__row-centre">
-        <button type="button" class="si-auth__link si-auth__link--sm" @click="useMagicLink = !useMagicLink">
+        <button type="button" class="si-auth__link si-auth__link--sm" @click="useMagicLink = !useMagicLink"
+          :data-tooltip="useMagicLink ? 'Use password instead' : 'Send a one-click sign-in link to your email'">
           {{ useMagicLink ? 'Use password instead' : '✨ Send a magic link' }}
         </button>
       </div>
@@ -162,6 +164,7 @@
           class="si-auth__google-btn"
           @click="signInWithGoogle"
           :disabled="authLoading"
+          data-tooltip="Continue with your Google account"
         >
           <svg class="si-auth__google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -779,4 +782,45 @@ export default {
 @media (min-width: 1280px) {
   .si-auth { padding: 44px 40px 48px; }
 }
+
+/* ── Tooltips ────────────────────────────────────────────────────────────── */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4b162d;
+  color: #e6d8ca;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 4px 10px;
+  border-radius: 4px;
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 200;
+}
+[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #4b162d;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 200;
+}
+[data-tooltip]:hover::after,
+[data-tooltip]:focus-visible::after,
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before { opacity: 1; }
 </style>
