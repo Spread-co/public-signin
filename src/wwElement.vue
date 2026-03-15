@@ -823,4 +823,23 @@ export default {
 [data-tooltip]:focus-visible::after,
 [data-tooltip]:hover::before,
 [data-tooltip]:focus-visible::before { opacity: 1; }
+
+/* ── Dark mode ─────────────────────────────────────────────────────── */
+:global(html.dark) .si-auth {
+  --si-surface: #1a0f14;
+  --si-border: rgba(230, 216, 202, 0.15);
+  --si-text: #f5f0eb;
+  --si-text-2: rgba(230, 216, 202, 0.65);
+  background: #000000;
+}
+:global(html.dark) .si-auth__card { background: #18181b; border-color: rgba(230,216,202,0.12); }
+:global(html.dark) .si-auth__input { background: #160c11; border-color: rgba(230,216,202,0.2); color: #f5f0eb; }
+:global(html.dark) .si-auth__input::placeholder { color: rgba(230,216,202,0.3); }
+:global(html.dark) .si-auth__input:focus { border-color: #ce6632; box-shadow: 0 0 0 3px rgba(206,102,50,0.15); }
+:global(html.dark) .si-auth__label { color: rgba(230,216,202,0.7); }
+:global(html.dark) .si-auth__heading { color: #f5f0eb; }
+:global(html.dark) .si-auth__subheading { color: rgba(230,216,202,0.6); }
+:global(html.dark) .si-auth__divider { border-color: rgba(230,216,202,0.12); }
+:global(html.dark) .si-auth__link { color: #bead38; }
+:global(html.dark) .si-auth__error { background: rgba(209,67,67,0.08); border-color: rgba(209,67,67,0.25); color: #fca5a5; }
 </style>
